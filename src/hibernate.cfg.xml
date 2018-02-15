@@ -12,5 +12,7 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="show_sql">true</property>
         <mapping resource="com/model/User.hbm.xml"></mapping>
+        <mapping resource="com/model/Report.hbm.xml"></mapping>
+        <mapping resource="com/model/Repair.hbm.xml"></mapping>
     </session-factory>
 </hibernate-configuration>
