@@ -8,11 +8,11 @@
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="number" type="integer">
+        <property name="number" type="string">
             <column name="number" length="12" not-null="true" unique="false" />
         </property>
         <property name="status" type="integer">
-            <column name="status" length="12" not-null="true" unique="false" />
+            <column name="status" length="12" not-null="false" unique="false" />
         </property>
         <property name="good" type="string">
             <column name="good" length="225" not-null="true" unique="false" />

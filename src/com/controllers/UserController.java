@@ -5,7 +5,6 @@ import com.model.User;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("User")
@@ -26,7 +25,7 @@ public class UserController {
     @GET
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
     public List getUsers(@DefaultValue("0")@QueryParam("page") Integer page,@DefaultValue("10")@QueryParam("size") Integer size){
-        List<User> list = new ArrayList<User>();
+        List<User> list ;
         list = dao.findAll(page,size);
         return list;
     }
@@ -34,6 +33,7 @@ public class UserController {
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public User addUser(@BeanParam User user) {
+        user.setStatus(1);
         dao.save(user);
         return user;
     }
@@ -46,10 +46,12 @@ public class UserController {
     }
 
     @DELETE
+    @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public User deleteUser(@BeanParam User user) {
-        dao.delete(user);
-        return user;
+    public void deleteUser(@PathParam("id") Integer id) {
+        User user = dao.get(id);
+        user.setStatus(0);
+        dao.update(user);
     }
 
 

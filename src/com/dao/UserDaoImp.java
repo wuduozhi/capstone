@@ -14,10 +14,10 @@ public class UserDaoImp implements UserDao {
             session = HibernateUtil.getSession();
             session.beginTransaction();
             session.save(user);
-            session.getTransaction().commit();
         }catch (Exception e){
             session.getTransaction().rollback();
         }finally {
+            session.getTransaction().commit();
             HibernateUtil.closeSession();
         }
     }
@@ -81,7 +81,7 @@ public class UserDaoImp implements UserDao {
         Session session=HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
         //2.定义查询最大记录数的hql
-        String hql="From User";
+        String hql="From User where status!=0";
         int start = page*size;
         int end = start + size;
         Query query = session.createQuery(hql);
@@ -97,12 +97,12 @@ public class UserDaoImp implements UserDao {
     public static void main(java.lang.String args[]){
         UserDao dao = new UserDaoImp();
         User u = new User();
-        u.setId(3);
+//        u.setId(3);
         u.setPhone("13098921645");
-        u.setName("吴多智");
+        u.setName("吴多智e");
         u.setPassword("wuduozhi");
         u.setLevel(3);
-        dao.update(u);
+        dao.save(u);
     }
 
 }

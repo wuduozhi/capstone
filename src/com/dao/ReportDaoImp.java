@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class ReportImp implements ReportDao {
+public class ReportDaoImp implements ReportDao {
     public void save(Report report) {
         Session session = null;
         try {
@@ -80,7 +80,7 @@ public class ReportImp implements ReportDao {
         Session session=HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
         //2.定义查询最大记录数的hql
-        String hql="From Report";
+        String hql="From Report where status!=0";
         int start = page*size;
         int end = start + size;
         Query query = session.createQuery(hql);
@@ -93,7 +93,7 @@ public class ReportImp implements ReportDao {
         return list;
     }
     public static void main(java.lang.String args[]){
-        ReportDao dao = new ReportImp();
+        ReportDao dao = new ReportDaoImp();
         Report re = new Report();
         re.setAddress("海南省海口市");
         re.setArea("湖南省");

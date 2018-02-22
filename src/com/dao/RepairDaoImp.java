@@ -8,18 +8,19 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class RepairDapImp implements RepairDao {
+public class RepairDaoImp implements RepairDao {
 
     public void save(Repair repair) {
         Session session = null;
+        Transaction tx = null;
         try {
             session = HibernateUtil.getSession();
-            session.beginTransaction();
+            tx = session.beginTransaction();
             session.save(repair);
-            session.getTransaction().commit();
         }catch (Exception e){
             session.getTransaction().rollback();
         }finally {
+            tx.commit();
             HibernateUtil.closeSession();
         }
     }
@@ -82,7 +83,7 @@ public class RepairDapImp implements RepairDao {
         Session session=HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
         //2.定义查询最大记录数的hql
-        String hql="From Repair";
+        String hql="From Repair where status!=0";
         int start = page*size;
         int end = start + size;
         Query query = session.createQuery(hql);
@@ -96,14 +97,19 @@ public class RepairDapImp implements RepairDao {
     }
 
     public static void main(java.lang.String args[]){
-        RepairDao dao = new RepairDapImp();
+        RepairDao dao = new RepairDaoImp();
         Repair repair = new Repair();
-        Date date = new Date(123456789);
+        Date date = new Date(12345678);
+        date.setTime(123456789);
         repair.setDo_time(date);
         repair.setGood("计算机");
         repair.setDo_time(date);
+        repair.setTime(date);
         repair.setNumber("123456789");
         repair.setOperation("装系统、配环境");
         dao.save(repair);
+        List<Repair> res = dao.findAll(0,10);
+
+        System.out.print(res);
     }
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50633
 File Encoding         : 65001
 
-Date: 2018-02-15 12:25:57
+Date: 2018-02-22 17:57:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,7 +42,7 @@ CREATE TABLE `repair` (
   `do_time` date DEFAULT NULL COMMENT '维修时间',
   `operation` varchar(255) DEFAULT NULL COMMENT '操作',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for report
@@ -58,10 +58,10 @@ CREATE TABLE `report` (
   `phone` varchar(255) DEFAULT NULL COMMENT '报修人电话',
   `address` varchar(255) DEFAULT NULL COMMENT '报修人地址',
   `staff` varchar(255) DEFAULT NULL COMMENT '维修人',
-  `describe` varchar(255) DEFAULT NULL COMMENT '描述',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
   `status` int(255) DEFAULT '1' COMMENT '是否有效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user
@@ -75,4 +75,4 @@ CREATE TABLE `user` (
   `phone` varchar(225) DEFAULT NULL COMMENT '电话',
   `status` int(255) DEFAULT '1' COMMENT '是否可用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
