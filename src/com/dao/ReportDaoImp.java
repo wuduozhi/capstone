@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.model.Report;
+import com.model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -92,6 +93,25 @@ public class ReportDaoImp implements ReportDao {
         HibernateUtil.closeSession();
         return list;
     }
+
+    public List findAll(Integer page, Integer size, Integer user_id) {
+        //1.获取session
+        Session session=HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        //2.定义查询最大记录数的hql
+        String hql="From Report where status!=0 and user="+user_id;
+        int start = page*size;
+        int end = start + size;
+        Query query = session.createQuery(hql);
+        query.setFirstResult(start);
+        query.setMaxResults(end);
+        //6.分页查询
+        List<Report> list=query.list();
+        tx.commit();
+        HibernateUtil.closeSession();
+        return list;
+    }
+
     public static void main(java.lang.String args[]){
         ReportDao dao = new ReportDaoImp();
         Report re = new Report();
@@ -104,6 +124,13 @@ public class ReportDaoImp implements ReportDao {
         re.setName("吴多智");
         re.setPhone("13098921645");
         re.setStaff("张三");
+        User u = new User();
+        u.setStatus(1);
+        u.setId(2);
+        u.setLevel(2);
+        u.setName("吴多智");
+        u.setPassword("asdfg1234");
+        re.setUser(u);
         dao.save(re);
     }
 }

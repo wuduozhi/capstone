@@ -19,6 +19,16 @@ public class Repair implements java.io.Serializable{
     Date do_time;
     @FormParam("time")
     Date time;
+    @FormParam("user")
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

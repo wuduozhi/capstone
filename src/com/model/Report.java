@@ -25,6 +25,16 @@ public class Report implements java.io.Serializable{
     String description;
     @FormParam("status")
     Integer status;
+    @FormParam("user")
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getId() {
         return id;

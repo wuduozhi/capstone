@@ -2,6 +2,8 @@ package com.dao;
 
 import com.model.Repair;
 import java.sql.Date;
+
+import com.model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -107,6 +109,13 @@ public class RepairDaoImp implements RepairDao {
         repair.setTime(date);
         repair.setNumber("123456789");
         repair.setOperation("装系统、配环境");
+        User u = new User();
+        u.setStatus(1);
+        u.setId(2);
+        u.setLevel(2);
+        u.setName("吴多智");
+        u.setPassword("asdfg1234");
+        repair.setUser(u);
         dao.save(repair);
         List<Repair> res = dao.findAll(0,10);
 

@@ -38,5 +38,8 @@
         <property name="description" type="string">
             <column name="description" length="225" not-null="true" unique="false" />
         </property>
+        <many-to-one name="user"  class="com.model.User" cascade="none" lazy="false" fetch="join" unique="true"
+                     column="user" not-null="true">
+        </many-to-one>
     </class>
 </hibernate-mapping>

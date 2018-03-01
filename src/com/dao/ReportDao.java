@@ -10,4 +10,5 @@ public interface ReportDao {
     public abstract void delete(Report report);
     public abstract void update(Report report);
     public abstract List findAll(Integer page, Integer size);
+    public abstract List findAll(Integer page, Integer size,Integer user_id);
 }

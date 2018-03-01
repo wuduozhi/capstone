@@ -1,5 +1,6 @@
 package com.app;
 
+import com.dao.NoticeDaoImp;
 import com.dao.RepairDaoImp;
 import com.dao.ReportDaoImp;
 import com.dao.UserDaoImp;
@@ -15,6 +16,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(UserDaoImp.class).to(UserDaoImp.class);
         bind(ReportDaoImp.class).to(ReportDaoImp.class);
         bind(RepairDaoImp.class).to(RepairDaoImp.class);
+        bind(NoticeDaoImp.class).to(NoticeDaoImp.class);
     }
 
 }

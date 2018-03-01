@@ -1,52 +1,71 @@
 package com.dao;
 
-import com.model.User;
+import com.model.Notice;
+import com.model.Repair;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class UserDaoImp implements UserDao {
-    public void save(User user){
+public class NoticeDaoImp implements NoticeDao {
+    public void save(Notice notice) {
         Session session = null;
+        Transaction tx = null;
         try {
             session = HibernateUtil.getSession();
-            session.beginTransaction();
-            session.save(user);
+            tx = session.beginTransaction();
+            session.save(notice);
         }catch (Exception e){
             session.getTransaction().rollback();
         }finally {
-            session.getTransaction().commit();
+            tx.commit();
             HibernateUtil.closeSession();
         }
     }
 
-    public User get(Integer id) {
+    public Notice get(Integer id) {
         Session session = HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
-        String hql = "FROM User where id=?";
-        User user = null;
+        String hql = "FROM Notice where id=?";
+        Notice notice = null;
         try {
             Query query = session.createQuery(hql);
-            user =(User)query.setParameter(0,id).uniqueResult();
+            notice =(Notice) query.setParameter(0,id).uniqueResult();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         tx.commit();
         HibernateUtil.closeSession();
-        return user;
+        return notice;
     }
-
-    public void delete(User user) {
-        if(user.getId()==null){
+    public void delete(Notice notice) {
+        if(notice.getId() == null){
             return;
         }else{
             Session session = HibernateUtil.getSession();
             Transaction tx= session.beginTransaction();
-            user.setStatus(0);
+            tx.commit();
+            notice.setStatus(0);
             try{
-                session.update(user);
+                session.update(notice);
+            }catch (Exception e){
+                session.getTransaction().rollback();
+                tx.commit();
+            }finally {
+                HibernateUtil.closeSession();
+            }
+        }
+    }
+
+    public void update(Notice notice) {
+        if(notice.getId()==null){
+            return;
+        }else{
+            Session session = HibernateUtil.getSession();
+            Transaction tx= session.beginTransaction();
+            try{
+                session.update(notice);
                 tx.commit();
             }catch (Exception e){
                 session.getTransaction().rollback();
@@ -57,73 +76,25 @@ public class UserDaoImp implements UserDao {
         }
     }
 
-    public void update(User user) {
-        if(user.getId()==null){
-            return;
-        }else{
-            Session session = HibernateUtil.getSession();
-            Transaction tx= session.beginTransaction();
-            try{
-                session.update(user);
-                tx.commit();
-            }catch (Exception e){
-                session.getTransaction().rollback();
-                tx.commit();
-            }finally {
-                HibernateUtil.closeSession();
-            }
-        }
-
-    }
-
-    public List findAll(Integer page,Integer size) {
+    public List findAll(Integer page, Integer size) {
         //1.获取session
         Session session=HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
         //2.定义查询最大记录数的hql
-        String hql="From User where status!=0";
+        String hql="From Notice where status!=0";
         int start = page*size;
         int end = start + size;
         Query query = session.createQuery(hql);
         query.setFirstResult(start);
         query.setMaxResults(end);
         //6.分页查询
-        List<User> list=query.list();
+        List<Notice> list=query.list();
         tx.commit();
         HibernateUtil.closeSession();
         return list;
     }
 
-    public User login(User user){
-        //1.获取session
-        Session session=HibernateUtil.getSession();
-        Transaction tx = session.beginTransaction();
-        String hql = "From User  where name=? and password=? and status!=0";
-        User u = null;
-        try {
-            Query query = session.createQuery(hql);
-            query.setString(0,user.getName());
-            query.setString(1,user.getPassword());
-            List<User> list = query.list();
-            u = list.get(0);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }finally {
-            tx.commit();
-            HibernateUtil.closeSession();
-        }
-        return u;
+    public List findAll(Integer page, Integer size, Integer user_id) {
+        return null;
     }
-
-    public static void main(java.lang.String args[]){
-        UserDao dao = new UserDaoImp();
-        User u = new User();
-//        u.setId(3);
-        u.setPhone("13098921645");
-        u.setName("吴多智e");
-        u.setPassword("wuduozhi");
-        u.setLevel(3);
-        dao.save(u);
-    }
-
 }

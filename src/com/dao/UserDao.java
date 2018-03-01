@@ -10,4 +10,5 @@ public interface UserDao {
     public abstract void delete(User user);
     public abstract void update(User user);
     public abstract List findAll(Integer page,Integer size);
+    public abstract  User login(User user);
 }

@@ -2,9 +2,13 @@ package com.controllers;
 
 import com.dao.RepairDaoImp;
 import com.model.Repair;
+import com.model.User;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -13,6 +17,9 @@ import java.util.List;
 public class RepairController {
     @Inject    //依赖注入？
     private RepairDaoImp dao;
+    //注入http请求
+    @Context
+    HttpServletRequest req;
 
     @GET
     @Path("{id}")
@@ -34,6 +41,14 @@ public class RepairController {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public Repair addRepair(@BeanParam Repair repair){
         repair.setStatus(1);
+        User u = null;
+        HttpSession session= req.getSession(true);
+        u =(User)session.getAttribute("user");
+        if(u == null){
+            return repair;
+        }else{
+            repair.setUser(u);
+        }
         dao.save(repair);
         return repair;
     }
