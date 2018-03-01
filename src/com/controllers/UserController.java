@@ -38,7 +38,7 @@ public class UserController {
             HttpSession session= req.getSession(true);
             session.setAttribute("user",u);
         }
-        String message =" {\"status\":\"success\",\"name\":\""+u.getName()+"\"}";
+        String message =" {\"status\":\"success\",\"name\":\""+u.getName()+"\",\"id\":\""+u.getId()+"\" }";
         return message;
     }
 

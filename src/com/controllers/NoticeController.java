@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.sql.Date;
 import java.util.List;
 
 @Path("Notice")
@@ -37,6 +38,9 @@ public class NoticeController {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public Notice addNotice(@BeanParam Notice notice){
         notice.setStatus(1);
+        java.util.Date d = new  java.util.Date();
+        Date date = new Date(d.getTime());
+        notice.setTime(date);
         dao.save(notice);
         return notice;
     }
