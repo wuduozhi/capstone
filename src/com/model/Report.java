@@ -5,6 +5,7 @@ import javax.ws.rs.FormParam;
 public class Report implements java.io.Serializable{
     public static Integer NOT_DEALL = 1;
     public static Integer DEALL = 2;
+
     @FormParam("id")
     Integer id;
     @FormParam("kind")
@@ -31,6 +32,16 @@ public class Report implements java.io.Serializable{
     User user;
     @FormParam("staff")
     User staff;
+
+    Repair repaie;
+
+    public Repair getRepaie() {
+        return repaie;
+    }
+
+    public void setRepaie(Repair repaie) {
+        this.repaie = repaie;
+    }
 
     public String getJudge() {
         return judge;

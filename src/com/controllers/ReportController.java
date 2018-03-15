@@ -4,6 +4,7 @@ import com.dao.ReportDaoImp;
 import com.dao.UserDaoImp;
 import com.model.Report;
 import com.model.User;
+import com.service.ReportService;
 import io.swagger.models.auth.In;
 
 import javax.inject.Inject;
@@ -17,6 +18,8 @@ import java.util.List;
 @Path("Report")
 public class ReportController {
     @Inject    //依赖注入？
+    private ReportService reportService;
+    @Inject    //依赖注入？
     private ReportDaoImp dao;
     @Inject    //依赖注入？
     private UserDaoImp userDao;
@@ -28,8 +31,8 @@ public class ReportController {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
     public Report getReport(@PathParam("id") Integer id){
-        Report report = new Report();
-        report = dao.get(id);
+        Report report ;
+        report = reportService.getReport(id);
         return report;
     }
 
@@ -43,7 +46,7 @@ public class ReportController {
         if(u == null){
             return null;
         }else{
-            list = dao.findAll(page,size,u.getId());
+            list = reportService.getReports(page,size,u.getId());
             return list;
         }
     }

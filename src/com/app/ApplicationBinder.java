@@ -1,6 +1,7 @@
 package com.app;
 
 import com.dao.*;
+import com.service.ReportService;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 /*
@@ -14,6 +15,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(RepairDaoImp.class).to(RepairDaoImp.class);
         bind(NoticeDaoImp.class).to(NoticeDaoImp.class);
         bind(RelationListDaoImp.class).to(RelationListDaoImp.class);
+        bind(ReportService.class).to(ReportService.class);
     }
 
 }
