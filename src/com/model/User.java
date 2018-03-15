@@ -4,6 +4,9 @@ import javax.ws.rs.FormParam;
 
 public class User implements java.io.Serializable{
     private static final long serialVersionUID = 1L;
+    public static Integer COMMOM = 3;
+    public static Integer STAFF = 2;
+    public static Integer ADMIN = 1;
     @FormParam("id")
     Integer id;
     @FormParam("name")

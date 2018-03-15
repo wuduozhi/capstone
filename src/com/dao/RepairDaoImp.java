@@ -23,6 +23,7 @@ public class RepairDaoImp implements RepairDao {
             session.getTransaction().rollback();
         }finally {
             tx.commit();
+            session.flush();
             HibernateUtil.closeSession();
         }
     }
@@ -39,6 +40,7 @@ public class RepairDaoImp implements RepairDao {
             System.out.println(e.getMessage());
         }
         tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return repair;
     }
@@ -57,6 +59,7 @@ public class RepairDaoImp implements RepairDao {
                 session.getTransaction().rollback();
                 tx.commit();
             }finally {
+                session.flush();
                 HibernateUtil.closeSession();
             }
         }
@@ -75,6 +78,7 @@ public class RepairDaoImp implements RepairDao {
                 session.getTransaction().rollback();
                 tx.commit();
             }finally {
+                session.flush();
                 HibernateUtil.closeSession();
             }
         }
@@ -94,9 +98,31 @@ public class RepairDaoImp implements RepairDao {
         //6.分页查询
         List<Repair> list=query.list();
         tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return list;
     }
+
+    public List findAll(Integer page, Integer size, Integer user_id){
+        //1.获取session
+        Session session=HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        //2.定义查询最大记录数的hql
+        String hql="From Repair where status!=0 and user="+user_id;
+        int start = page*size;
+        int end = start + size;
+        Query query = session.createQuery(hql);
+        query.setFirstResult(start);
+        query.setMaxResults(end);
+        //6.分页查询
+        List<Repair> list=query.list();
+        tx.commit();
+        session.flush();
+        HibernateUtil.closeSession();
+        return list;
+    }
+
+
 
     public static void main(java.lang.String args[]){
         RepairDao dao = new RepairDaoImp();

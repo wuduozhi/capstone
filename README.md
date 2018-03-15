@@ -204,6 +204,7 @@
     "status": 1
 }
 ```
+
 ### 0X07 报修修改
 #### method put
 #### url api/Report
@@ -285,7 +286,7 @@
 
 ### 0X0A 获取报修列表
 #### method get
-#### url api/User
+#### url api/Report
 
 #### get
 * field:page
@@ -458,9 +459,9 @@
 }
 ```
 
-### 0X0E 获取报修列表
+### 0X0E 获取维修列表
 #### method get
-#### url api/User
+#### url api/Repair
 
 #### get
 * field:page

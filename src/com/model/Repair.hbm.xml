@@ -20,6 +20,9 @@
         <property name="operation" type="string">
             <column name="operation" length="225" not-null="true" unique="false" />
         </property>
+        <property name="remark" type="string">
+            <column name="remark" length="225" not-null="true" unique="false" />
+        </property>
         <property name="time" type="java.sql.Date">
             <column name="time" length="225" not-null="true" unique="false" />
         </property>

@@ -13,6 +13,8 @@ public class Repair implements java.io.Serializable{
     String good;
     @FormParam("operation")
     String operation;
+    @FormParam("remark")
+    String remark;
     @FormParam("status")
     Integer status;
     @FormParam("do_time")
@@ -21,6 +23,15 @@ public class Repair implements java.io.Serializable{
     Date time;
     @FormParam("user")
     User user;
+
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public User getUser() {
         return user;

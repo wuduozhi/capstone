@@ -1,7 +1,6 @@
 package com.dao;
 
 import com.model.Notice;
-import com.model.Repair;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -20,6 +19,7 @@ public class NoticeDaoImp implements NoticeDao {
             session.getTransaction().rollback();
         }finally {
             tx.commit();
+            session.flush();
             HibernateUtil.closeSession();
         }
     }
@@ -36,6 +36,7 @@ public class NoticeDaoImp implements NoticeDao {
             System.out.println(e.getMessage());
         }
         tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return notice;
     }
@@ -53,6 +54,7 @@ public class NoticeDaoImp implements NoticeDao {
                 session.getTransaction().rollback();
                 tx.commit();
             }finally {
+                session.flush();
                 HibernateUtil.closeSession();
             }
         }
@@ -71,6 +73,7 @@ public class NoticeDaoImp implements NoticeDao {
                 session.getTransaction().rollback();
                 tx.commit();
             }finally {
+                session.flush();
                 HibernateUtil.closeSession();
             }
         }
@@ -90,6 +93,7 @@ public class NoticeDaoImp implements NoticeDao {
         //6.分页查询
         List<Notice> list=query.list();
         tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return list;
     }

@@ -1,7 +1,11 @@
 package com.controllers;
 
+import com.dao.RelationListDaoImp;
 import com.dao.RepairDaoImp;
+import com.dao.ReportDaoImp;
+import com.model.RelationList;
 import com.model.Repair;
+import com.model.Report;
 import com.model.User;
 
 import javax.inject.Inject;
@@ -17,6 +21,10 @@ import java.util.List;
 public class RepairController {
     @Inject    //依赖注入？
     private RepairDaoImp dao;
+    @Inject    //依赖注入？
+    private RelationListDaoImp listDao;
+    @Inject    //依赖注入？
+    private ReportDaoImp reportDao;
     //注入http请求
     @Context
     HttpServletRequest req;
@@ -33,23 +41,34 @@ public class RepairController {
     @GET
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
     public List getRepairs(@DefaultValue("0") @QueryParam("page") Integer page, @DefaultValue("10") @QueryParam("size") Integer size) {
-        List list = dao.findAll(page, size);
+        HttpSession session= req.getSession(true);
+        User user =(User)session.getAttribute("user");
+        List list = dao.findAll(page, size,user.getId());
         return list;
     }
 
+
+
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public Repair addRepair(@BeanParam Repair repair){
-        repair.setStatus(1);
+    public Repair addRepair(@BeanParam Repair repair,@FormParam("report_id") Integer report_id){
         User u = null;
+        Report report = reportDao.get(report_id);
         HttpSession session= req.getSession(true);
         u =(User)session.getAttribute("user");
         if(u == null){
             return repair;
-        }else{
+        }else if(u.getId().equals(report.getStaff().getId())){
             repair.setUser(u);
+        }else{
+            return repair;
         }
+        repair.setStatus(1);
         dao.save(repair);
+        RelationList l = new RelationList();
+        l.setRepair_id(repair);
+        l.setReport_id(report);
+        listDao.save(l);
         return repair;
     }
 

@@ -18,6 +18,7 @@ public class UserDaoImp implements UserDao {
             session.getTransaction().rollback();
         }finally {
             session.getTransaction().commit();
+            session.flush();
             HibernateUtil.closeSession();
         }
     }
@@ -34,6 +35,7 @@ public class UserDaoImp implements UserDao {
             System.out.println(e.getMessage());
         }
         tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return user;
     }
@@ -52,6 +54,7 @@ public class UserDaoImp implements UserDao {
                 session.getTransaction().rollback();
                 tx.commit();
             }finally {
+                session.flush();
                 HibernateUtil.closeSession();
             }
         }
@@ -70,6 +73,7 @@ public class UserDaoImp implements UserDao {
                 session.getTransaction().rollback();
                 tx.commit();
             }finally {
+                session.flush();
                 HibernateUtil.closeSession();
             }
         }
@@ -90,6 +94,7 @@ public class UserDaoImp implements UserDao {
         //6.分页查询
         List<User> list=query.list();
         tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return list;
     }
@@ -110,6 +115,7 @@ public class UserDaoImp implements UserDao {
             System.out.println(e.getMessage());
         }finally {
             tx.commit();
+            session.flush();
             HibernateUtil.closeSession();
         }
         return u;

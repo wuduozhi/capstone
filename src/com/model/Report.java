@@ -3,6 +3,8 @@ package com.model;
 import javax.ws.rs.FormParam;
 
 public class Report implements java.io.Serializable{
+    public static Integer NOT_DEALL = 1;
+    public static Integer DEALL = 2;
     @FormParam("id")
     Integer id;
     @FormParam("kind")
@@ -19,14 +21,24 @@ public class Report implements java.io.Serializable{
     String phone;
     @FormParam("address")
     String address;
-    @FormParam("staff")
-    String staff;
     @FormParam("description")
     String description;
+    @FormParam("judge")
+    String judge;
     @FormParam("status")
     Integer status;
     @FormParam("user")
     User user;
+    @FormParam("staff")
+    User staff;
+
+    public String getJudge() {
+        return judge;
+    }
+
+    public void setJudge(String judge) {
+        this.judge = judge;
+    }
 
     public User getUser() {
         return user;
@@ -100,11 +112,11 @@ public class Report implements java.io.Serializable{
         this.address = address;
     }
 
-    public String getStaff() {
+    public User getStaff() {
         return staff;
     }
 
-    public void setStaff(String staff) {
+    public void setStaff(User staff) {
         this.staff = staff;
     }
 

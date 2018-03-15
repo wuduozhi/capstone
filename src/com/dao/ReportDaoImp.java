@@ -19,6 +19,7 @@ public class ReportDaoImp implements ReportDao {
         }catch (Exception e){
             session.getTransaction().rollback();
         }finally {
+            session.flush();
             HibernateUtil.closeSession();
         }
     }
@@ -35,6 +36,7 @@ public class ReportDaoImp implements ReportDao {
             System.out.println(e.getMessage());
         }
         tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return report;
     }
@@ -53,6 +55,7 @@ public class ReportDaoImp implements ReportDao {
                 session.getTransaction().rollback();
                 tx.commit();
             }finally {
+                session.flush();
                 HibernateUtil.closeSession();
             }
         }
@@ -71,6 +74,7 @@ public class ReportDaoImp implements ReportDao {
                 session.getTransaction().rollback();
                 tx.commit();
             }finally {
+                session.flush();
                 HibernateUtil.closeSession();
             }
         }
@@ -90,6 +94,7 @@ public class ReportDaoImp implements ReportDao {
         //6.分页查询
         List<Report> list=query.list();
         tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return list;
     }
@@ -108,6 +113,26 @@ public class ReportDaoImp implements ReportDao {
         //6.分页查询
         List<Report> list=query.list();
         tx.commit();
+        session.flush();
+        HibernateUtil.closeSession();
+        return list;
+    }
+
+    public List findAllNotDeal(Integer page, Integer size, Integer staff_id){
+        //1.获取session
+        Session session=HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        //2.定义查询最大记录数的hql
+        String hql="From Report where status!=0 and status!=2 and staff="+staff_id;
+        int start = page*size;
+        int end = start + size;
+        Query query = session.createQuery(hql);
+        query.setFirstResult(start);
+        query.setMaxResults(end);
+        //6.分页查询
+        List<Report> list=query.list();
+        tx.commit();
+        session.flush();
         HibernateUtil.closeSession();
         return list;
     }
@@ -123,10 +148,9 @@ public class ReportDaoImp implements ReportDao {
         re.setKind("计算机");
         re.setName("吴多智");
         re.setPhone("13098921645");
-        re.setStaff("张三");
         User u = new User();
         u.setStatus(1);
-        u.setId(2);
+        u.setId(1);
         u.setLevel(2);
         u.setName("吴多智");
         u.setPassword("asdfg1234");

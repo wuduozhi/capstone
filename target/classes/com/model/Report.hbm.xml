@@ -32,12 +32,15 @@
         <property name="address" type="string">
             <column name="address" length="225" not-null="true" unique="false" />
         </property>
-        <property name="staff" type="string">
-            <column name="staff" length="225" not-null="true" unique="false" />
-        </property>
         <property name="description" type="string">
             <column name="description" length="225" not-null="true" unique="false" />
         </property>
+        <property name="judge" type="string">
+            <column name="judge" length="225" not-null="true" unique="false" />
+        </property>
+        <many-to-one name="staff"  class="com.model.User" cascade="none" lazy="false" fetch="join" unique="true"
+                     column="staff" not-null="true">
+        </many-to-one>
         <many-to-one name="user"  class="com.model.User" cascade="none" lazy="false" fetch="join" unique="true"
                      column="user" not-null="true">
         </many-to-one>

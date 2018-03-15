@@ -15,5 +15,6 @@
         <mapping resource="com/model/Report.hbm.xml"/>
         <mapping resource="com/model/Repair.hbm.xml"/>
         <mapping resource="com/model/Notice.hbm.xml"/>
+        <mapping resource="com/model/RelationList.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

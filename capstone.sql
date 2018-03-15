@@ -10,10 +10,29 @@ Target Server Type    : MYSQL
 Target Server Version : 50633
 File Encoding         : 65001
 
-Date: 2018-02-26 18:01:25
+Date: 2018-03-14 20:45:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for list
+-- ----------------------------
+DROP TABLE IF EXISTS `list`;
+CREATE TABLE `list` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `repair_id` int(11) unsigned NOT NULL COMMENT '报修id',
+  `report_id` int(11) unsigned NOT NULL COMMENT '维修id',
+  PRIMARY KEY (`id`),
+  KEY `FK_repair_id` (`repair_id`),
+  KEY `FK_report_id` (`report_id`),
+  CONSTRAINT `FK_repair_id` FOREIGN KEY (`repair_id`) REFERENCES `repair` (`id`),
+  CONSTRAINT `FK_report_id` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of list
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for notice
@@ -21,13 +40,13 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `repair_id` int(11) NOT NULL COMMENT '单号',
-  `user_id` int(11) NOT NULL COMMENT '用户id',
+  `repair_id` int(11) DEFAULT NULL COMMENT '单号',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
   `message` varchar(225) DEFAULT NULL COMMENT '内容',
   `time` date DEFAULT NULL COMMENT '时间',
   `status` int(11) DEFAULT NULL COMMENT '是否使用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of notice
@@ -46,17 +65,15 @@ CREATE TABLE `repair` (
   `status` int(6) DEFAULT NULL COMMENT '维修状态',
   `do_time` date DEFAULT NULL COMMENT '维修时间',
   `operation` varchar(255) DEFAULT NULL COMMENT '操作',
+  `remark` varchar(255) DEFAULT NULL COMMENT '评价',
   PRIMARY KEY (`id`),
   KEY `FK_repair` (`user`),
   CONSTRAINT `FK_repair` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of repair
 -- ----------------------------
-INSERT INTO `repair` VALUES ('1', '2', '123456789', '计算机', '2017-12-08', '1', '2019-12-02', '装系统配环境');
-INSERT INTO `repair` VALUES ('3', '3', '123456789', '计算机', '2017-12-08', '1', '1970-01-02', '装系统、配环境');
-INSERT INTO `repair` VALUES ('4', '4', '123456789', '计算机', '2018-02-27', '1', '1970-01-02', '装系统、配环境');
 
 -- ----------------------------
 -- Table structure for report
@@ -72,21 +89,20 @@ CREATE TABLE `report` (
   `department` varchar(255) DEFAULT NULL COMMENT '报修人部门',
   `phone` varchar(255) DEFAULT NULL COMMENT '报修人电话',
   `address` varchar(255) DEFAULT NULL COMMENT '报修人地址',
-  `staff` varchar(255) DEFAULT NULL COMMENT '维修人',
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  `judge` varchar(255) DEFAULT '' COMMENT '留言',
   `status` int(255) DEFAULT '1' COMMENT '是否有效',
+  `staff` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_report` (`user`),
-  CONSTRAINT `FK_report` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  KEY `FK_staff` (`staff`),
+  CONSTRAINT `FK_report` FOREIGN KEY (`user`) REFERENCES `user` (`id`),
+  CONSTRAINT `FK_staff` FOREIGN KEY (`staff`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of report
 -- ----------------------------
-INSERT INTO `report` VALUES ('1', '2', '计算机', '海南省', '吴多智', '湖南大学', '信科院', '13098921645', '海南省海口市', '张三', '装系统配环境', '1');
-INSERT INTO `report` VALUES ('2', '3', '计算机', '湖南省', '吴多智', '湖南大学', '信息科学与工程学院', '13098921645', '海南省海口市', '张三', '装系统配环境', null);
-INSERT INTO `report` VALUES ('3', '4', '笔记本', '海南省', '小智', '小鱼科技', '技术部', '1234876509', '馃子街后巷天桥附近', '李国', '不能联网', '0');
-INSERT INTO `report` VALUES ('4', '2', '笔记本', '海南省', '小智', '小鱼科技', '技术部', '1234876509', '馃子街后巷', '李国', '不能联网', '1');
 
 -- ----------------------------
 -- Table structure for user
@@ -100,15 +116,8 @@ CREATE TABLE `user` (
   `phone` varchar(225) DEFAULT NULL COMMENT '电话',
   `status` int(255) DEFAULT '1' COMMENT '是否可用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('2', '维尼熊', 'wuduozhi', '1', '12345678901', '1');
-INSERT INTO `user` VALUES ('3', '吴多智e', 'wuduozhi', '3', '13098921645', '1');
-INSERT INTO `user` VALUES ('4', '维尼熊', 'wuduozhi', '1', '12345678901', '1');
-INSERT INTO `user` VALUES ('5', '吴多智e', 'wuduozhi', '3', '13098921645', null);
-INSERT INTO `user` VALUES ('6', '小智e', 'asdfghjkl', '1', '13098765432', null);
-INSERT INTO `user` VALUES ('7', '小智e', 'asdfghjkl', '1', '13098765432', null);
-INSERT INTO `user` VALUES ('8', '小智e', 'asdfghjkl', '1', '13098765432', '1');
