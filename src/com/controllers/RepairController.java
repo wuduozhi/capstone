@@ -3,10 +3,8 @@ package com.controllers;
 import com.dao.RelationListDaoImp;
 import com.dao.RepairDaoImp;
 import com.dao.ReportDaoImp;
-import com.model.RelationList;
-import com.model.Repair;
-import com.model.Report;
-import com.model.User;
+import com.model.*;
+import com.service.RepairService;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +17,8 @@ import java.util.List;
 
 @Path("Repair")
 public class RepairController {
+    @Inject    //依赖注入？
+    private RepairService repairService;
     @Inject    //依赖注入？
     private RepairDaoImp dao;
     @Inject    //依赖注入？
@@ -34,7 +34,7 @@ public class RepairController {
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
     public Repair getRepair(@PathParam("id") Integer id) {
         Repair repair = new Repair();
-        repair = dao.get(id);
+        repair = repairService.getRepair(id);
         return repair;
     }
 
@@ -43,7 +43,14 @@ public class RepairController {
     public List getRepairs(@DefaultValue("0") @QueryParam("page") Integer page, @DefaultValue("10") @QueryParam("size") Integer size) {
         HttpSession session= req.getSession(true);
         User user =(User)session.getAttribute("user");
-        List list = dao.findAll(page, size,user.getId());
+        List list = null;
+        if(user==null){
+            return null;
+        }else if(user.getLevel().equals(User.ADMIN)){
+            list = repairService.getRepairs(page,size);
+        }else{
+            list = repairService.getRepairs(page, size,user.getId());
+        }
         return list;
     }
 
@@ -56,6 +63,7 @@ public class RepairController {
         Report report = reportDao.get(report_id);
         HttpSession session= req.getSession(true);
         u =(User)session.getAttribute("user");
+
         if(u == null){
             return repair;
         }else if(u.getId().equals(report.getStaff().getId())){
@@ -69,6 +77,8 @@ public class RepairController {
         l.setRepair_id(repair);
         l.setReport_id(report);
         listDao.save(l);
+        report.setStatus(Report.DEALL);
+        reportDao.update(report);
         return repair;
     }
 
@@ -86,6 +96,25 @@ public class RepairController {
         Repair repair = dao.get(id);
         repair.setStatus(0);
         dao.update(repair);
+    }
+
+    @Path("count")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public Count getCount(){
+        User u = null;
+        HttpSession session= req.getSession(true);
+        u =(User)session.getAttribute("user");
+        if(u.getLevel().equals(User.ADMIN)){
+            u = null;
+        }
+        Count count = new Count();
+        Integer sum = dao.getCount(u);
+        count.setCount(sum);
+        count.setStatus("success");
+        count.setKind("Repair");
+
+        return count;
     }
 }
 

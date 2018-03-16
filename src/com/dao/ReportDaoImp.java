@@ -137,6 +137,38 @@ public class ReportDaoImp implements ReportDao {
         return list;
     }
 
+    public Integer getCount(User user){
+        String str = "";
+        if(user!=null){  //不同人员过去的count不同
+            if(user.getLevel().equals(User.COMMOM)){
+                str = "status!=0 and user="+user.getId();
+            }else if(user.getLevel().equals(User.STAFF)){
+                str = "and staff="+user.getId()+" and status =1";
+            }else{
+                return null;
+            }
+        }else{
+            str = "status!=0";
+        }
+        String hql = "From Report where "+str;
+        Session session=HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        Integer count = 0;
+        try{
+            Query query = session.createQuery(hql);
+            List list = query.list();
+            count = list.size();
+        }catch (Exception e){
+
+        }finally {
+            tx.commit();
+            session.flush();
+            HibernateUtil.closeSession();
+            return count;
+        }
+
+    }
+
     public static void main(java.lang.String args[]){
         ReportDao dao = new ReportDaoImp();
         Report re = new Report();

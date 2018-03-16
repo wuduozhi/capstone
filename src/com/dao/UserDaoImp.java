@@ -121,6 +121,45 @@ public class UserDaoImp implements UserDao {
         return u;
     }
 
+    public List getStaff(Integer page,Integer size) {
+        //1.获取session
+        Session session=HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        //2.定义查询最大记录数的hql
+        String hql="From User where status!=0 and level="+User.STAFF;
+        int start = page*size;
+        int end = start + size;
+        Query query = session.createQuery(hql);
+        query.setFirstResult(start);
+        query.setMaxResults(end);
+        //6.分页查询
+        List<User> list=query.list();
+        tx.commit();
+        session.flush();
+        HibernateUtil.closeSession();
+        return list;
+    }
+
+    public Integer getCount(){
+        String hql = "From User where status=1";
+        Session session=HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        Integer count = 0;
+        try{
+            Query query = session.createQuery(hql);
+            List list = query.list();
+            count = list.size();
+        }catch (Exception e){
+
+        }finally {
+            tx.commit();
+            session.flush();
+            HibernateUtil.closeSession();
+            return count;
+        }
+
+    }
+
     public static void main(java.lang.String args[]){
         UserDao dao = new UserDaoImp();
         User u = new User();

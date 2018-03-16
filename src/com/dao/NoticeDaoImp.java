@@ -98,6 +98,26 @@ public class NoticeDaoImp implements NoticeDao {
         return list;
     }
 
+    public Integer getCount(){
+        String hql = "From Notice where status!=0";
+        Session session=HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        Integer count = 0;
+        try{
+            Query query = session.createQuery(hql);
+            List list = query.list();
+            count = list.size();
+        }catch (Exception e){
+
+        }finally {
+            tx.commit();
+            session.flush();
+            HibernateUtil.closeSession();
+            return count;
+        }
+
+    }
+
     public List findAll(Integer page, Integer size, Integer user_id) {
         return null;
     }

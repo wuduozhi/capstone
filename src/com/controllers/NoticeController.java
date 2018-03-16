@@ -1,6 +1,7 @@
 package com.controllers;
 
 import com.dao.NoticeDaoImp;
+import com.model.Count;
 import com.model.Notice;
 
 import javax.inject.Inject;
@@ -60,4 +61,19 @@ public class NoticeController {
         notice.setStatus(0);
         dao.update(notice);
     }
+
+    @Path("count")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public Count getCount(){
+        Count count = new Count();
+        Integer sum = dao.getCount();
+        count.setCount(sum);
+        count.setStatus("success");
+        count.setKind("Notice");
+
+        return count;
+    }
+
+
 }

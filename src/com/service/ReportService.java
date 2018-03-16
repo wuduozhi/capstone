@@ -21,7 +21,7 @@ public class ReportService {
         }
         RelationList relationList = listDao.get(report.getId(),1);
         if(relationList != null)
-           report.setRepaie(relationList.getRepair_id());
+           report.setRepair(relationList.getRepair_id());
 
         return report;
     }
@@ -32,7 +32,20 @@ public class ReportService {
             Report report = list.get(i);
             RelationList relationList = listDao.get(report.getId(),1);
             if(relationList!=null){
-                report.setRepaie(relationList.getRepair_id());
+                report.setRepair(relationList.getRepair_id());
+            }
+        }
+
+        return list;
+    }
+
+    public List getReports(Integer page, Integer size){
+        List<Report> list = reportDao.findAll(page,size);
+        for(int i=0;i<list.size();i++){
+            Report report = list.get(i);
+            RelationList relationList = listDao.get(report.getId(),1);
+            if(relationList!=null){
+                report.setRepair(relationList.getRepair_id());
             }
         }
 

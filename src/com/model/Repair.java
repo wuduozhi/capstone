@@ -24,6 +24,15 @@ public class Repair implements java.io.Serializable{
     @FormParam("user")
     User user;
 
+    Report report;
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
 
     public String getRemark() {
         return remark;

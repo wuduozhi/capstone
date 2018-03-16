@@ -1,5 +1,6 @@
 package com.controllers;
 import com.dao.UserDaoImp;
+import com.model.Count;
 import com.model.User;
 
 import javax.inject.Inject;
@@ -38,7 +39,7 @@ public class UserController {
             HttpSession session= req.getSession(true);
             session.setAttribute("user",u);
         }
-        String message =" {\"status\":\"success\",\"name\":\""+u.getName()+"\",\"id\":\""+u.getId()+"\" }";
+        String message =" {\"status\":\"success\",\"name\":\""+u.getName()+"\",\"id\":\""+u.getId()+"\",\"level\":\""+u.getLevel()+"\" }";
         return message;
     }
 
@@ -47,6 +48,15 @@ public class UserController {
     public List getUsers(@DefaultValue("0")@QueryParam("page") Integer page,@DefaultValue("10")@QueryParam("size") Integer size){
         List<User> list ;
         list = dao.findAll(page,size);
+        return list;
+    }
+
+    @Path("staff")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
+    public List getStaffs(@DefaultValue("0")@QueryParam("page") Integer page,@DefaultValue("10")@QueryParam("size") Integer size){
+        List<User> list ;
+        list = dao.getStaff(page,size);
         return list;
     }
 
@@ -72,6 +82,50 @@ public class UserController {
         User user = dao.get(id);
         user.setStatus(0);
         dao.update(user);
+    }
+
+    /*
+      管理员修改权限
+     */
+    @Path("level")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public String updateLevel(@FormParam("id") Integer id,@FormParam("level") Integer level){
+        User u = null;
+        HttpSession session= req.getSession(true);
+        u =(User)session.getAttribute("user");
+        String message = "";
+        if(u==null){
+            message = "{\"status\":\"fail\",\"reason\":\"please login\"}";
+        }else if(!u.getLevel().equals(User.ADMIN)){
+            message = "{\"status\":\"fail\",\"reason\":\"access is not enough\"}";
+        }else{
+            User tmp = dao.get(id);
+            if(tmp==null){
+                message = "{\"status\":\"fail\",\"reason\":\"id error\"}";
+            }else{
+                tmp.setLevel(level);
+                dao.update(tmp);
+                message = "{\"status\":\"success\",\"reason\":\"\"}";
+            }
+        }
+
+        return message;
+    }
+
+
+    @Path("count")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public Count getCount(){
+        Count count = new Count();
+        Integer sum = null;
+        sum = dao.getCount();
+        count.setCount(sum);
+        count.setStatus("success");
+        count.setKind("User");
+
+        return count;
     }
 
 

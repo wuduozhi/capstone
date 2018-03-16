@@ -2,6 +2,7 @@ package com.controllers;
 
 import com.dao.ReportDaoImp;
 import com.dao.UserDaoImp;
+import com.model.Count;
 import com.model.Report;
 import com.model.User;
 import com.service.ReportService;
@@ -45,12 +46,18 @@ public class ReportController {
         u =(User)session.getAttribute("user");
         if(u == null){
             return null;
+        }else if(u.getLevel().equals(User.ADMIN)){
+            list = reportService.getReports(page,size);
+            return list;
         }else{
             list = reportService.getReports(page,size,u.getId());
             return list;
         }
     }
 
+    /*
+      返回指定维修人员的订单的未处理订单
+     */
     @Path("manage")
     @GET
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
@@ -62,7 +69,7 @@ public class ReportController {
         if(u == null){
             return null;
         }else{
-            if(u.getLevel()!=User.STAFF){
+            if(!u.getLevel().equals(User.STAFF)){
                 return null;
             }
             list = dao.findAllNotDeal(page,size,u.getId());
@@ -70,14 +77,17 @@ public class ReportController {
         }
     }
 
+    /*
+      为一项报修指定维修人员
+     */
     @Path("staff")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public Report addManage(@FormParam("id") Integer id, @FormParam("staff_id")Integer staff_id){
+    public Report addStaff(@FormParam("id") Integer id, @FormParam("staff_id")Integer staff_id){
         Report report = dao.get(id);
         if(report.getStaff() == null){
             User staff = userDao.get(staff_id);
-            if(staff.getLevel() == User.STAFF){
+            if(staff.getLevel().equals(User.STAFF)){
                 report.setStaff(staff);
                 dao.update(report);
             }else{
@@ -87,6 +97,9 @@ public class ReportController {
         return report;
     }
 
+    /*
+        添加评价
+     */
     @Path("judge")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
@@ -130,5 +143,24 @@ public class ReportController {
         Report report = dao.get(id);
         report.setStatus(0);
         dao.update(report);
+    }
+
+    @Path("count")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public Count getCount(){
+        User u = null;
+        HttpSession session= req.getSession(true);
+        u =(User)session.getAttribute("user");
+        if(u.getLevel().equals(User.ADMIN)){
+            u = null;
+        }
+        Count count = new Count();
+        Integer sum = dao.getCount(u);
+        count.setCount(sum);
+        count.setStatus("success");
+        count.setKind("Report");
+
+        return count;
     }
 }

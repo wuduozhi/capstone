@@ -122,6 +122,33 @@ public class RepairDaoImp implements RepairDao {
         return list;
     }
 
+    public Integer getCount(User user){
+        String str = "";
+        if(user!=null){
+            if(!user.getLevel().equals(User.STAFF)){
+                return null;
+            }
+            str = "and user="+user.getId();
+        }
+        String hql = "From Repair where status!=0"+str;
+        Session session=HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        Integer count = 0;
+        try{
+            Query query = session.createQuery(hql);
+            List list = query.list();
+            count = list.size();
+        }catch (Exception e){
+
+        }finally {
+            tx.commit();
+            session.flush();
+            HibernateUtil.closeSession();
+            return count;
+        }
+
+    }
+
 
 
     public static void main(java.lang.String args[]){

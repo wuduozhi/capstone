@@ -33,14 +33,14 @@ public class Report implements java.io.Serializable{
     @FormParam("staff")
     User staff;
 
-    Repair repaie;
+    Repair repair;
 
-    public Repair getRepaie() {
-        return repaie;
+    public Repair getRepair() {
+        return repair;
     }
 
-    public void setRepaie(Repair repaie) {
-        this.repaie = repaie;
+    public void setRepair(Repair repair) {
+        this.repair = repair;
     }
 
     public String getJudge() {
