@@ -3,6 +3,7 @@ package com.dao;
 import com.model.Repair;
 import java.sql.Date;
 
+import com.model.Statistic;
 import com.model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -148,6 +149,8 @@ public class RepairDaoImp implements RepairDao {
         }
 
     }
+
+
 
 
 

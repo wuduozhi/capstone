@@ -3,6 +3,7 @@ package com.app;
 import com.dao.*;
 import com.service.RepairService;
 import com.service.ReportService;
+import com.service.StatisticService;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 /*
@@ -18,6 +19,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(RelationListDaoImp.class).to(RelationListDaoImp.class);
         bind(ReportService.class).to(ReportService.class);
         bind(RepairService.class).to(RepairService.class);
+        bind(StatisticService.class).to(StatisticService.class);
     }
 
 }

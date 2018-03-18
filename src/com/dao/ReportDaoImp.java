@@ -1,11 +1,13 @@
 package com.dao;
 
 import com.model.Report;
+import com.model.Statistic;
 import com.model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReportDaoImp implements ReportDao {
@@ -167,6 +169,33 @@ public class ReportDaoImp implements ReportDao {
             return count;
         }
 
+    }
+
+    public List getReports(Statistic statistic) {
+        String str = "";
+        if (statistic.getArea() != null) {
+            str += "and area like '%" + statistic.getArea() + "%' ";
+        } else if (statistic.getKind() != null) {
+            str += "and kind like '%" + statistic.getKind() + "%' ";
+        }else{
+            str +="";
+        }
+
+        String hql = "From Report where 1=1 " + str;
+        Session session = HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        List list = new ArrayList();
+        try {
+            Query query = session.createQuery(hql);
+            list = query.list();
+        } catch (Exception e) {
+
+        } finally {
+            tx.commit();
+            session.flush();
+            HibernateUtil.closeSession();
+            return list;
+        }
     }
 
     public static void main(java.lang.String args[]){

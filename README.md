@@ -813,9 +813,9 @@
 #### url api/Statistic
 
 #### get
-* field:time1
+* field:start_time
     + 起始时间 按照报修时间算
-* field:time2
+* field:end_time
     + 结束时间
 * field:kind
     + 类型
@@ -823,79 +823,101 @@
     + 地点
 
 #### return 
-
-```
-[
-    {
-    "case_id": 7,
-    "kind": "笔记本",
-    "area": "海南省",
-    "name": "小智",
-    "company": "小鱼科技",
-    "department": "技术部",
-    "phone": "1234876509",
-    "address": "馃子街后巷天桥附近",
-    "staff": "李国",
-    "report_time":"2001-01-01",
-    "description": "不能联网",
-    "status": {
-        "scheduled":"yes 如果no就不要下面的了",
-        "repair_staff":"reapairzhang",
-        "stuff":"电脑",
-        "staff_phone":"12345678900",
-        "done":"todo doing or done",
-        "last_do_time":"2099-01-01 最后一次维修时间",
-        "operation":"卸载了QQ电脑管家",
-        "staff_report":"下次不要装两个杀毒软件（维修人员报告）"
-    }
-},
-{
-    "case_id": 7,
-    "kind": "笔记本",
-    "area": "海南省",
-    "name": "小智",
-    "company": "小鱼科技",
-    "department": "技术部",
-    "phone": "1234876509",
-    "address": "馃子街后巷天桥附近",
-    "staff": "李国",
-    "report_time":"2001-01-01",
-    "description": "不能联网",
-    "status": {
-        "scheduled":"yes 如果no就不要下面的了",
-        "repair_staff":"reapairzhang",
-        "stuff":"电脑",
-        "staff_phone":"12345678900",
-        "done":"todo doing or done",
-        "last_do_time":"2099-01-01 最后一次维修时间",
-        "operation":"卸载了QQ电脑管家",
-        "staff_report":"下次不要装两个杀毒软件（维修人员报告）"
-    }
-},
-{
-    "case_id": 7,
-    "kind": "笔记本",
-    "area": "海南省",
-    "name": "小智",
-    "company": "小鱼科技",
-    "department": "技术部",
-    "phone": "1234876509",
-    "address": "馃子街后巷天桥附近",
-    "staff": "李国",
-    "report_time":"2001-01-01",
-    "description": "不能联网",
-    "status": {
-        "scheduled":"yes 如果no就不要下面的了",
-        "repair_staff":"reapairzhang",
-        "stuff":"电脑",
-        "staff_phone":"12345678900",
-        "done":"todo doing or done",
-        "last_do_time":"2099-01-01 最后一次维修时间",
-        "operation":"卸载了QQ电脑管家",
-        "staff_report":"下次不要装两个杀毒软件（维修人员报告）"
-    }
-}
-]
+[{
+	"id": 16,
+	"kind": "计算机",
+	"area": "海南海口",
+	"name": "小智e",
+	"company": "湖南大学",
+	"department": "天马",
+	"phone": "1156",
+	"address": "天马",
+	"description": "电脑蓝屏了",
+	"judge": null,
+	"status": 1,
+	"user": {
+		"id": 172,
+		"name": "用户1",
+		"password": "123456",
+		"phone": "13098921645",
+		"level": 3,
+		"status": 1
+	},
+	"staff": {
+		"id": 173,
+		"name": "修理工1",
+		"password": "123456",
+		"phone": "13098921645",
+		"level": 2,
+		"status": 0
+	},
+	"repair": {
+		"id": 18,
+		"number": "123456789",
+		"good": "计算机",
+		"operation": "帮忙插网线、清灰",
+		"remark": "网线都不连，怎么上网啊？？？？",
+		"status": 1,
+		"do_time": "2018-02-19",
+		"time": "2018-02-19",
+		"user": {
+			"id": 173,
+			"name": "修理工1",
+			"password": "123456",
+			"phone": "13098921645",
+			"level": 2,
+			"status": 0
+		},
+		"report": null
+	}
+}, {
+	"id": 17,
+	"kind": "计算机",
+	"area": "海南海口",
+	"name": "小智e",
+	"company": "湖南大学",
+	"department": "天马",
+	"phone": "13098921645",
+	"address": "天马",
+	"description": "电脑死机了，蓝屏了，不能上网了",
+	"judge": "这个人不行啊",
+	"status": 1,
+	"user": {
+		"id": 172,
+		"name": "用户1",
+		"password": "123456",
+		"phone": "13098921645",
+		"level": 3,
+		"status": 1
+	},
+	"staff": {
+		"id": 173,
+		"name": "修理工1",
+		"password": "123456",
+		"phone": "13098921645",
+		"level": 2,
+		"status": 0
+	},
+	"repair": {
+		"id": 19,
+		"number": "123456789",
+		"good": "计算机",
+		"operation": "帮忙插网线、清灰",
+		"remark": "网线都不连，怎么上网啊？？？？",
+		"status": 1,
+		"do_time": "2018-02-19",
+		"time": "2018-02-19",
+		"user": {
+			"id": 173,
+			"name": "修理工1",
+			"password": "123456",
+			"phone": "13098921645",
+			"level": 2,
+			"status": 0
+		},
+		"report": null
+	}
+}]
 ```
 
 ### 0X15 报修人评价

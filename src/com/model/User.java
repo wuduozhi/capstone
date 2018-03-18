@@ -7,6 +7,7 @@ public class User implements java.io.Serializable{
     public static Integer COMMOM = 3;
     public static Integer STAFF = 2;
     public static Integer ADMIN = 1;
+    public static Integer SUPER = 0;
     @FormParam("id")
     Integer id;
     @FormParam("name")
