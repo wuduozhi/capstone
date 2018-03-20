@@ -85,6 +85,11 @@ public class RepairController {
     @PUT
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public Repair updateRepair(@BeanParam Repair repair){
+        if(repair.getId()==null){
+            return null;
+        }
+        Repair re = dao.get(repair.getId());
+        repair.setStatus(re.getStatus());
         dao.update(repair);
         return repair;
     }

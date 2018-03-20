@@ -217,8 +217,8 @@
 #### url api/Report
 
 #### get
-* field：case_id
-    + case_id
+* field：id
+    + id
 * field:kind  
     + 种类
 * field:area  
@@ -1022,4 +1022,54 @@
         "status": 1
     }
 ]
+```
+### 0X19 报修提交
+#### method post
+#### url api/Report
+
+#### get
+* field:kind  
+    + 种类
+* field:area  
+    + 报修人地区
+* field:name  
+    + 报修人姓名
+* field:company  
+    + 报修人单位
+* field:department 
+    + 报修人部门
+* field:phone 
+    + 报修人电话
+* field:address  
+    + 报修人地址
+* field:description 
+    + 描述
+
+
+
+#### return
+```
+{
+    "id": 18,
+    "kind": "计算机",
+    "area": "海南海口",
+    "name": "小智",
+    "company": "国企",
+    "department": "私营",
+    "phone": "123455",
+    "address": "天马山东",
+    "description": "不能上网、蓝屏",
+    "judge": null,
+    "status": 1,
+    "user": {
+        "id": 172,
+        "name": "用户1",
+        "password": "admin",
+        "phone": "13098921645",
+        "level": 3,
+        "status": 1
+    },
+    "staff": null,
+    "repair": null
+}
 ```

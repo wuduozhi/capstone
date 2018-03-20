@@ -132,6 +132,11 @@ public class ReportController {
     @PUT
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public Report updateReport(@BeanParam Report report){
+        if(report.getId()==null){
+            return null;
+        }
+        Report re = dao.get(report.getId());
+        report.setStatus(re.getStatus());
         dao.update(report);
         return report;
     }

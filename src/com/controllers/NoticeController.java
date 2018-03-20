@@ -49,6 +49,11 @@ public class NoticeController {
     @PUT
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public Notice updateNotice(@BeanParam Notice notice){
+        if(notice.getId()==null){
+            return null;
+        }
+        Notice n = dao.get(notice.getId());
+        notice.setStatus(n.getStatus());
         dao.update(notice);
         return notice;
     }

@@ -75,6 +75,11 @@ public class UserController {
     @PUT
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public User updateUser(@BeanParam User user) {
+        if(user.getId()==null){
+            return null;
+        }
+        User u = dao.get(user.getId());
+        user.setStatus(u.getStatus());
         dao.update(user);
         return user;
     }
