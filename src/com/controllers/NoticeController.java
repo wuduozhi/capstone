@@ -54,17 +54,35 @@ public class NoticeController {
         }
         Notice n = dao.get(notice.getId());
         notice.setStatus(n.getStatus());
-        dao.update(notice);
-        return notice;
+        if(notice.getMessage() != null){
+            n.setMessage(notice.getMessage());
+        }
+        if(notice.getTime() != null){
+            n.setTime(notice.getTime());
+        }
+        if(notice.getTitle()!=null){
+            n.setTitle(notice.getTitle());
+        }
+
+        dao.update(n);
+        return n;
     }
 
     @DELETE
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public void deleteNotice(@PathParam("id") Integer id){
+    public String deleteNotice(@PathParam("id") Integer id){
         Notice notice = dao.get(id);
+        String message = "";
+        if(notice == null){
+            message = "{\"status\":\"false\",\"message\":\"id wrong\"}";
+            return message;
+        }
         notice.setStatus(0);
         dao.update(notice);
+        message = "{\"status\":\"success\",\"message\":\"success\"}";
+
+        return message;
     }
 
     @Path("count")

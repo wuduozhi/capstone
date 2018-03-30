@@ -90,17 +90,47 @@ public class RepairController {
         }
         Repair re = dao.get(repair.getId());
         repair.setStatus(re.getStatus());
-        dao.update(repair);
-        return repair;
+        //对于一些没给值的，用原来的值
+        if(repair.getDo_time() != null) {
+            re.setDo_time(repair.getDo_time());
+        }
+        if(repair.getGood() != null){
+            re.setGood(repair.getGood());
+        }
+        if(repair.getNumber()!=null){
+            re.setNumber(repair.getNumber());
+        }
+        if(repair.getOperation() != null){
+            re.setOperation(repair.getOperation());
+        }
+        if(repair.getRemark()!=null){
+            re.setRemark(repair.getRemark());
+        }
+        if(repair.getTime()!=null){
+            re.setTime(repair.getTime());
+        }
+        if(repair.getUser() != null){
+            re.setUser(repair.getUser());
+        }
+        dao.update(re);
+        return re;
     }
 
     @DELETE
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public void delRepair(@PathParam("id") Integer id){
+    public String delRepair(@PathParam("id") Integer id){
         Repair repair = dao.get(id);
+        String message = "";
+        if(repair == null){
+            message = "{\"status\":\"false\",\"message\":\"id wrong\"}";
+            return message;
+        }
         repair.setStatus(0);
         dao.update(repair);
+        message = "{\"status\":\"success\",\"message\":\"success\"}";
+
+        return message;
     }
 
     @Path("count")

@@ -13,10 +13,20 @@ public class Notice implements java.io.Serializable{
     Integer user_id;
     @FormParam("message")
     String message;
+    @FormParam("title")
+    String title;
     @FormParam("status")
     Integer status;
     @FormParam("time")
     Date time;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

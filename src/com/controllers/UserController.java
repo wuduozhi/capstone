@@ -78,19 +78,39 @@ public class UserController {
         if(user.getId()==null){
             return null;
         }
+
         User u = dao.get(user.getId());
         user.setStatus(u.getStatus());
-        dao.update(user);
-        return user;
+        if(user.getLevel() != null){
+            u.setLevel(user.getLevel());
+        }
+        if(user.getName() != null){
+            u.setName(user.getName());
+        }
+        if(user.getPassword() != null){
+            u.setPassword(user.getPassword());
+        }
+        if(user.getPhone()!=null){
+            u.setPhone(user.getPhone());
+        }
+        dao.update(u);
+        return u;
     }
 
     @DELETE
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public void deleteUser(@PathParam("id") Integer id) {
+    public String deleteUser(@PathParam("id") Integer id) {
         User user = dao.get(id);
+        String message = "";
+        if(user == null){
+            message = "{\"status\":\"false\",\"message\":\"id wrong\"}";
+            return message;
+        }
         user.setStatus(0);
         dao.update(user);
+        message = "{\"status\":\"success\",\"message\":\"success\"}";
+        return message;
     }
 
     /*

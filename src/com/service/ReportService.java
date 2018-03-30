@@ -52,6 +52,18 @@ public class ReportService {
         return list;
     }
 
+    public List getManage(Integer page, Integer size, Integer staff_id){
+        List<Report> list = reportDao.findAllNotDeal(page,size,staff_id);
+        for(int i=0;i<list.size();i++){
+            Report report = list.get(i);
+            RelationList relationList = listDao.get(report.getId(),1);
+            if(relationList!=null){
+                report.setRepair(relationList.getRepair_id());
+            }
+        }
+        return list;
+    }
+
 
 
 

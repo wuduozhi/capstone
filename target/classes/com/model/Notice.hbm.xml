@@ -20,6 +20,9 @@
         <property name="message" type="string">
             <column name="message" length="225" not-null="false" unique="false" />
         </property>
+        <property name="title" type="string">
+            <column name="title" length="225" not-null="false" unique="false" />
+        </property>
 
         <property name="time" type="java.sql.Date">
             <column name="time" length="225" not-null="false" unique="false" />

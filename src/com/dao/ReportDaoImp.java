@@ -125,7 +125,7 @@ public class ReportDaoImp implements ReportDao {
         Session session=HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
         //2.定义查询最大记录数的hql
-        String hql="From Report where status!=0 and status!=2 and staff="+staff_id;
+        String hql="From Report where status!=0 and staff="+staff_id+" order by status ";
         int start = page*size;
         int end = start + size;
         Query query = session.createQuery(hql);
@@ -145,7 +145,7 @@ public class ReportDaoImp implements ReportDao {
             if(user.getLevel().equals(User.COMMOM)){
                 str = "status!=0 and user="+user.getId();
             }else if(user.getLevel().equals(User.STAFF)){
-                str = "and staff="+user.getId()+" and status =1";
+                str = " staff="+user.getId()+" and status =1";
             }else{
                 return null;
             }

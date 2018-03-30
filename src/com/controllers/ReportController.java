@@ -72,7 +72,7 @@ public class ReportController {
             if(!u.getLevel().equals(User.STAFF)){
                 return null;
             }
-            list = dao.findAllNotDeal(page,size,u.getId());
+            list = reportService.getManage(page,size,u.getId());
             return list;
         }
     }
@@ -85,7 +85,7 @@ public class ReportController {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public Report addStaff(@FormParam("id") Integer id, @FormParam("staff_id")Integer staff_id){
         Report report = dao.get(id);
-        if(report.getStaff() == null){
+        if(report != null){
             User staff = userDao.get(staff_id);
             if(staff.getLevel().equals(User.STAFF)){
                 report.setStaff(staff);
@@ -137,17 +137,58 @@ public class ReportController {
         }
         Report re = dao.get(report.getId());
         report.setStatus(re.getStatus());
-        dao.update(report);
-        return report;
+        if(report.getStaff()!=null){
+            re.setStaff(report.getStaff());
+        }
+        if(report.getJudge() != null){
+            re.setJudge(report.getJudge());
+        }
+        if(report.getAddress() != null){
+            re.setAddress( report.getAddress());
+        }
+        if(report.getArea() != null){
+            re.setArea(report.getArea());
+        }
+        if(report.getCompany() != null){
+            re.setCompany(report.getCompany());
+        }
+        if(report.getDepartment()!=null){
+            re.setDepartment(report.getDepartment());
+        }
+        if(report.getDescription()!=null){
+            re.setDescription(report.getDescription());
+        }
+        if(report.getKind() != null){
+            re.setKind(report.getKind());
+        }
+        if(report.getName() != null){
+            re.setName(report.getName());
+        }
+        if(report.getPhone() != null){
+            re.setPhone(report.getPhone());
+        }
+        if(report.getUser() != null){
+            re.setUser(report.getUser());
+        }
+        dao.update(re);
+        return re;
     }
 
     @DELETE
     @Path("{id}")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public void delReport(@PathParam("id") Integer id){
+    public String delReport(@PathParam("id") Integer id){
         Report report = dao.get(id);
+        String message = "";
+        if(report == null){
+            message = "{\"status\":\"false\",\"message\":\"id wrong\"}";
+            return message;
+        }
         report.setStatus(0);
         dao.update(report);
+        message = "{\"status\":\"success\",\"message\":\"success\"}";
+
+        return message;
     }
 
     @Path("count")
